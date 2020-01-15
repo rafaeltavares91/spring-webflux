@@ -17,7 +17,7 @@ public class CategoryControllerTest {
     private CategoryController categoryController;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         categoryRepository = Mockito.mock(CategoryRepository.class);
         categoryController = new CategoryController(categoryRepository);
         webTestClient = WebTestClient.bindToController(categoryController).build();
@@ -39,7 +39,8 @@ public class CategoryControllerTest {
     @Test
     public void getById() {
         BDDMockito.given(categoryRepository.findById("someId"))
-                .willReturn(Mono.just(Category.builder().description("Cat").build()));
+                .willReturn(Mono.just(
+                        Category.builder().description("Cat").build()));
 
         webTestClient.get().uri("/categories/someId")
                 .exchange()
